@@ -1,7 +1,36 @@
 // TODO: Include packages needed for this application
 const generateMarkdown = require('./utils/generateMarkdown.js')
+const express = require('express');
+const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const fs = require('fs');
+const mysqlConnection = require('./db/connection');
+
+const PORT = process.env.PORT || 3001;
+const app = express();
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+  
+  // renaming column to total_count, looking at data from favourite_books table, COUNTING by in_stock group. 
+  db.query('SELECT COUNT(id) AS total_count FROM favorite_books GROUP BY in_stock', function (err, results) {
+    console.log(results);
+  });
+  
+  // renaming column to total_in_section, looking at data from favourite_books table, COUNTING by in_stock group. 
+  db.query('SELECT SUM(quantity) AS total_in_section, MAX(quantity) AS max_quantity, MIN(quantity) AS min_quantity, AVG(quantity) AS avg_quantity FROM favorite_books GROUP BY section', function (err, results) {
+    console.log(results);
+  });
+  
+  app.use((req, res) => {
+    res.status(404).end();
+  });
+  
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });  
+
 
 // TODO: Create an array of questions for user input
 const startQuestion = [
