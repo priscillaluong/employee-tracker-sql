@@ -1,5 +1,5 @@
 require('dotenv').config();
-console.log(process.env)
+console.log(process.env);
 
 const mysqlConnection = mysql.createConnection(
   process.env.DB_NAME,
@@ -8,7 +8,7 @@ const mysqlConnection = mysql.createConnection(
   {
     host: 'localhost',
     dialect: 'mysql',
-    port: 3001
+    port: 3306,
   },
   console.log(`Connected to the employees_db database.`)
 );
