@@ -1,5 +1,10 @@
-SELECT
-favorite_books.book_name AS book_name,
-book_prices.price AS price
-FROM favorite_books
-JOIN book_prices ON book_prices.id = favorite_books.book_price;
+/* Joining roles.department_id with department name from department table */
+
+SELECT 
+roles.id AS role_id,
+roles.role_title, 
+roles.salary,
+department.department_name AS department
+FROM roles
+JOIN department 
+ON roles.department_id = department.id;
