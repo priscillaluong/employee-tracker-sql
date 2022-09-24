@@ -45,53 +45,6 @@ const startQuestion = [
     }
 ];
 
-const addRoleQ = [
-    {
-        type: 'input',
-        name: 'role',
-        message: 'Please enter name of role:'
-    },
-    {
-        type: 'input',
-        name: 'salary',
-        message: 'Please enter salary of role:',
-        validate: (answer) => {
-            if (isNaN(answer)) {
-                return "Please enter numbers only:";
-            }
-            return true;
-        }
-    },
-    {
-        type: 'input',
-        name: 'department',
-        message: 'Please enter the role department:'
-    }
-];
-
-const addEmployeeQ = [
-    {
-        type: 'input',
-        name: 'fName',
-        message: "Please enter employee's first name:"
-    },
-    {
-        type: 'input',
-        name: 'lName',
-        message: "Please enter employee's last name:"
-    },
-    {
-        type: 'input',
-        name: 'employeeRole',
-        message: "Please enter employee's role:"
-    },
-    {
-        type: 'input',
-        name: 'employeeManager',
-        message: "Please enter employee's manager:"
-    }
-];
-
 const updateEmployeeQ = [
     {
         type: 'list',

@@ -31,6 +31,84 @@ const addDepartmentQ = [
     }
 ];
 
+const addRoleQs = [
+    {
+        type: 'input',
+        name: 'role',
+        message: 'Please enter name of role:'
+    },
+    {
+        type: 'input',
+        name: 'salary',
+        message: 'Please enter salary of role:',
+        validate: (answer) => {
+            if (isNaN(answer)) {
+                return "Please enter numbers only:";
+            }
+            return true;
+        }
+    },
+    {
+        type: 'list',
+        name: 'department',
+        message: 'Which department does the role belong to?',
+        choices: departmentsArr
+    }
+];
+
+const addEmployeeQs = [
+    {
+        type: 'input',
+        name: 'fName',
+        message: "Please enter employee's first name:"
+    },
+    {
+        type: 'input',
+        name: 'lName',
+        message: "Please enter employee's last name:"
+    },
+    {
+        type: 'input',
+        name: 'role',
+        message: "Please enter employee's role:"
+    },
+    {
+        type: 'list',
+        name: 'manager',
+        message: "Please select employee's manager:",
+        choices: managersArr
+    }
+];
+
+function addRole(role, salary, department) {
+    let getDepartmentId = '';
+    mysqlConnection.query('SELECT id FROM department WHERE department_name = ?', department, function (err, results) {
+        getDepartmentId = results[0].id;
+        console.log(getDepartmentId);     
+    })
+    mysqlConnection.query("INSERT INTO roles (role_title, salary, department_id) VALUES (?, ?, ?);", [role, Number(salary), 2], function (err, results) {
+        console.log(typeof(role));
+        console.log(typeof(Number(salary)));
+        console.log(getDepartmentId);
+        console.log(results);
+        console.log(err);
+        console.log("This new role has been successfully added to the database!");
+        start.start();  
+    })
+}
+
+function addRolePrompt(){
+    mysqlConnection.query('SELECT department_name FROM department', function (err, results) {
+        for (const department in results) {
+            departmentsArr.push(results[department].department_name);
+        }       
+    })
+    inquirer.prompt(addRoleQs)
+    .then((response) => {
+        addRole(response.role, response.salary, response.department);
+    });
+}
+
 function addDepartment(department) {
     console.log("This is the result:" + department)
     mysqlConnection.query('INSERT INTO department (department_name) VALUES (?);', department, function (err, results) {
@@ -136,7 +214,7 @@ function dbEnquiry(optionResponse) {
             addDepartmentPrompt();
         break;
         case 'Add Role':
-            console.log("also correct");
+            addRolePrompt();
         break;
         case 'Add Employee':
             console.log("also correct");
