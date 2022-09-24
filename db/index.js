@@ -148,5 +148,45 @@ function generateMarkdown(data) {
 `;
 
 }
+function dbEnquiry(optionResponse) {
+    switch(optionResponse) {
+        case 'View All Departments':
+            console.log("correct!");
+        break;
+        case 'View All Roles':
+            console.log("also correct");
+        break;
+        case 'View All Employees':
+            console.log("also correct");
+        break;
+        case 'View Employees By Manager':
+            console.log("also correct");
+        break;
+        case 'View Employees By Department':
+            console.log("also correct");
+        break;
+        case 'Add Department':
+            console.log("also correct");
+        break;
+        case 'Add Role':
+            console.log("also correct");
+        break;
+        case 'Add Employee':
+            console.log("also correct");
+        break;
+        case 'Update Employee Role':
+            console.log("also correct");
+        break;
+        case 'Update Employee Manager':
+            console.log("also correct");
+        break;
+        case 'Delete department, roles or employees':
+            console.log("also correct");
+        break;
+        case 'Quit':
+            console.log("also correct");
+        break;
+    };
+}
 
-module.exports = generateMarkdown;
+module.exports = dbEnquiry;

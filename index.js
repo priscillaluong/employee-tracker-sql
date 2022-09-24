@@ -1,11 +1,10 @@
 // TODO: Include packages needed for this application
-const generateMarkdown = require('./db/index');
-const mysql = require('mysql2');
+const dbEnquiry = require('./db/index');
 const inquirer = require('inquirer');
-const mysqlConnection = require('./config/connection');
+/* const mysqlConnection = require('./config/connection');
 const cTable = require('console.table');
-const logo = require('asciiart-logo');
-
+const logo = require('asciiart-logo'); */
+/* 
 // renaming column to total_count, looking at data from favourite_books table, COUNTING by in_stock group. 
 db.query('SELECT COUNT(id) AS total_count FROM favorite_books GROUP BY in_stock', function (err, results) {
     console.log(results);
@@ -22,7 +21,7 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-});
+}); */
 
 
 // TODO: Create an array of questions for user input
@@ -35,10 +34,14 @@ const startQuestion = [
             "View All Departments",
             "View All Roles",
             "View All Employees",
+            "View Employees By Manager",
+            "View Employees By Department",
             "Add Department",
             "Add Role",
             "Add Employee",
             "Update Employee Role",
+            "Update Employee Manager",
+            "Delete department, roles or employees",
             "Quit"
         ]
     }
@@ -113,11 +116,19 @@ const updateEmployeeQ = [
 // TODO: Create a function to initialize app
 function init() {
     inquirer.prompt(startQuestion)
-        .then((answers) => {
-            const readMeContent = generateMarkdown(answers);
-            writeToFile("README.md", readMeContent);
+        .then((response) => {
+            dbEnquiry(response.options);
         });
 }
 
 // Function call to initialize app
 init();
+
+/* 
+"View All Roles",
+"View All Employees",
+"Add Department",
+"Add Role",
+"Add Employee",
+"Update Employee Role",
+"Quit" */

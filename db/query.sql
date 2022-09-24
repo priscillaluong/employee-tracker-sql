@@ -1,4 +1,5 @@
 /* Joining roles.department_id with department name from department table */
+/* View all roles */
 
 SELECT 
 roles.id AS role_id,
@@ -9,25 +10,38 @@ FROM roles
 JOIN department 
 ON roles.department_id = department.id;
 
-/* Joining roles.department_id with department name from department table */
+/* View all employees */
 
 SELECT 
 a.id AS employee_id,
 a.first_name,
 a.last_name, 
 c.role_title,
-/* department.department_name, */
+d.department_name,
 c.salary,
 b.first_name AS manager_firstname,
 b.last_name AS manager_lastname
 FROM employee a
-INNER JOIN employee b ON a.manager_id = b.id
-INNER JOIN roles c ON a.role_id = c.id;
-/* JOIN department ON department.id = roles.department_id; */
+LEFT JOIN employee b ON a.manager_id = b.id
+INNER JOIN roles c ON a.role_id = c.id
+INNER JOIN department d ON d.id = c.department_id;
 
-/* SELECT 
-*
-FROM employee
-JOIN roles ON employee.role_id = roles.id;
-INNER JOIN employee ON employee.manager_id = manager.id;
-JOIN department ON department.id = Roles.department_id; */
+/* Add department */
+
+INSERT INTO department (department_name)
+VALUES ("Talent");
+
+/* Add a role */
+
+INSERT INTO roles (role_title, salary, department_id)
+VALUES ("Talent Executive", 75000, 5);
+
+/* Add an employee */
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ("Sarah", "Lam", 4, 3);
+
+/* Update an employee role */
+
+UPDATE employee SET role_id = 1
+WHERE employee.first_name = "Mike" AND employee.last_name = "Chan";
