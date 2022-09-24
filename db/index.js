@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const mysqlConnection = require('../config/connection');
-/* const cTable = require('console.table'); */
+const cTable = require('console.table');
+const start = require('../index.js');
 
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
@@ -62,12 +63,14 @@ function generateMarkdown(data) {
 function viewAllRoles(){
     mysqlConnection.query('SELECT roles.id AS role_id, roles.role_title, roles.salary, department.department_name FROM roles JOIN department ON roles.department_id = department.id;', function (err, results) {
         console.table(results);
+        start.start();
     })
 };
 
 function viewAllDepartments(){
     mysqlConnection.query('SELECT * FROM department', function (err, results) {
         console.table(results);
+        start.start();
     })
 };
 

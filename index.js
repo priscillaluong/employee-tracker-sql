@@ -111,12 +111,16 @@ const updateEmployeeQ = [
     }
 ];
 
+function start() {
+    inquirer.prompt(startQuestion)
+    .then((response) => {
+        dbEnquiry(response.options);
+    });
+}
+
 // TODO: Create a function to initialize app
 function init() {
-    inquirer.prompt(startQuestion)
-        .then((response) => {
-            dbEnquiry(response.options);
-        });
+    start();
 }
 
 // Function call to initialize app
@@ -130,3 +134,5 @@ init();
 "Add Employee",
 "Update Employee Role",
 "Quit" */
+
+exports.start = start;
