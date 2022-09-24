@@ -1,3 +1,8 @@
+// TODO: Repeated data is pushed into arrays (from different prompts and same prompts)
+// TODO: ADD NEW ROLE - getDepartmentId is coming up with an error
+// TODO: Finish remaining prompts
+// TODO: QUIT function 
+
 const inquirer = require('inquirer');
 const mysqlConnection = require('../config/connection');
 const cTable = require('console.table');
