@@ -43,6 +43,17 @@ INNER JOIN roles c ON a.role_id = c.id
 INNER JOIN department d ON d.id = c.department_id
 WHERE b.first_name = "John" AND b.last_name = "Doe";
 
+/* get manager names*/
+
+SELECT 
+concat(b.first_name, " ", b.last_name) AS manager_name,
+b.id AS value
+FROM employee a
+LEFT JOIN employee b ON a.manager_id = b.id
+INNER JOIN roles c ON a.role_id = c.id
+INNER JOIN department d ON d.id = c.department_id
+WHERE b.first_name IS NOT NULL AND b.last_name IS NOT NULL;
+
 /* Add department */
 
 INSERT INTO department (department_name)

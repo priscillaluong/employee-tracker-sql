@@ -3,67 +3,34 @@ const mysqlConnection = require('../config/connection');
 const cTable = require('console.table');
 const start = require('../index.js');
 
-// TODO: Create a function to generate markdown for README
-function generateMarkdown(data) {
-  const license = data.license;
-  renderLicenseBadge(license);
-  renderLicenseLink(license);
-  renderLicenseSection(license);
-
-  return `# ${data.title}
-  ${licenseBadge}
-  ## Table of Contents:
-  1. [Description](#description)
-  2. [Installation Instructions](#installation)
-  
-  3. [Usage Information](#usage)
-  4. [Contribution Guidelines](#contribution)
-  5. [Test Instructions](#test)
-  6. [License](#license)
-  7. [Questions](#questions)
-  <a name="description"></a>
-  ## Description:
-  
-  ${data.description}
-  
-  <a name="installation"></a>
-  ## Installation Instructions:
-  
-  ${data.installation}
-  
-  <a name="usage"></a>
-  ## Usage Information:
-  
-  ${data.usage}
-  
-  <a name="contribution"></a>
-  ## Contribution Guidelines:
-  
-  ${data.contribution}
-  
-  <a name="test"></a>
-  ## Test Instructions:
-  
-  ${data.test}
-  
-  <a name="license"></a>
-  ## License (${license}):
-  
-  Copyright (C) 2022, ${data.name}
-  ${licenseSection}
-  
-  <a name="questions"></a>
-  ## Questions:
-  
-  You can find me on GitHub https://github.com/${data.github} or email me at ${data.email}
-`;
-
-}
+/* const viewByManager = [
+    {
+        type: 'list',
+        name: 'manager',
+        message: 'Please select a manager:',
+        choices: getManager()
+        }
+]; */
 
 function viewEmployeesByManager(){
-    mysqlConnection.query('SELECT b.first_name AS manager_firstname, b.last_name AS manager_lastname, a.id AS employee_id, a.first_name, a.last_name, c.role_title, d.department_name, c.salary FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name = ? AND b.last_name = ?;', function (err, results) {
+    mysqlConnection.query('SELECT b.first_name AS manager_firstname, b.last_name AS manager_lastname, a.id AS employee_id, a.first_name, a.last_name, c.role_title, d.department_name, c.salary FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name = ? AND b.last_name = ?;', [], function (err, results) {
         console.table(results);
         start.start();
+    })
+};
+
+function getManager() {
+    mysqlConnection.query('SELECT concat(b.first_name, " ", b.last_name) AS value, b.id AS id FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name IS NOT NULL AND b.last_name IS NOT NULL;', function (err, results) {
+        console.log(results);
+        console.log(results[0]);
+        let managers = []
+        for (const manager in results) {
+            console.log(results[manager].value)
+/*             managers.push(results[manager]); */
+        }
+/*         console.log(managers); 
+        return managers; */
+        
     })
 };
 
@@ -100,7 +67,11 @@ function dbEnquiry(optionResponse) {
             viewAllEmployees();
         break;
         case 'View Employees By Manager':
-            viewEmployeesByManager();
+            getManager();
+/*             inquirer.prompt(viewByManager)
+            .then((response) => {
+                console.log(response);
+            }); */
         break;
         case 'View Employees By Department':
             console.log("also correct");
