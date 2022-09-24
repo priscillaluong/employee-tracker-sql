@@ -4,6 +4,7 @@ const cTable = require('console.table');
 const start = require('../index.js');
 let managersArr = [];
 let departmentsArr = [];
+let rolesArr = [];
 
 const getManagerQ = [
     {
@@ -68,9 +69,10 @@ const addEmployeeQs = [
         message: "Please enter employee's last name:"
     },
     {
-        type: 'input',
+        type: 'list',
         name: 'role',
-        message: "Please enter employee's role:"
+        message: "Please select employee's role:",
+        choices: rolesArr
     },
     {
         type: 'list',
@@ -79,6 +81,68 @@ const addEmployeeQs = [
         choices: managersArr
     }
 ];
+
+//////////////////////////////////// QUIT ///////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+function quit () {
+    //prompt.ui.close();
+}
+
+//////////////////////// DELETE DEP, ROLES OR EMPLOYEES /////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////// UPDATE EMPLOYEE MANAGER //////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////// UPDATE EMPLOYEE ROLE /////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////// ADD AN EMPLOYEE //////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+function addEmployee(fName, lName, role, manager) {
+    let roleId = '';
+    let managerId = '';
+    const managerName = manager.split(" ");
+
+    switch (manager) {
+        case 'None':
+        break;
+        default:
+            mysqlConnection.query('SELECT id FROM employee WHERE first_name = ? AND last_name = ?', [managerName[0], managerName[1]], function (err, results) {
+                managerId = results[0].id;
+            })
+    }
+
+    mysqlConnection.query('SELECT id FROM roles WHERE role_title = ?', role, function (err, results) {
+        roleId = results[0].id;   
+    })
+    mysqlConnection.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);', [fName, lName, roleId, managerId], function (err, results) {
+        console.log("This employee has been successfully added to the database!");
+        start.start();  
+    })
+}
+
+function addEmployeePrompt(){
+    mysqlConnection.query('SELECT concat(b.first_name, " ", b.last_name) AS manager_name FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name IS NOT NULL AND b.last_name IS NOT NULL;', function (err, results) {
+        for (const person in results) {
+            managersArr.push(results[person].manager_name);
+        }
+        managersArr.push("None");
+    });    
+    mysqlConnection.query('SELECT role_title FROM roles', function (err, results) {
+        for (const role in results) {
+            rolesArr.push(results[role].role_title);
+        }       
+    });
+    inquirer.prompt(addEmployeeQs)
+    .then((response) => {
+        addEmployee(response.fName, response.lName, response.role, response.manager);
+    });
+}
 
 //////////////////////////////// ADD NEW ROLE ////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +305,7 @@ function dbEnquiry(optionResponse) {
             addRolePrompt();
         break;
         case 'Add Employee':
-            console.log("also correct");
+            addEmployeePrompt();
         break;
         case 'Update Employee Role':
             console.log("also correct");
@@ -253,7 +317,7 @@ function dbEnquiry(optionResponse) {
             console.log("also correct");
         break;
         case 'Quit':
-            console.log("also correct");
+            quit();
         break;
     };
 }
