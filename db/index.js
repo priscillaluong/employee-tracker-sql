@@ -80,6 +80,9 @@ const addEmployeeQs = [
     }
 ];
 
+//////////////////////////////// ADD NEW ROLE ////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
 function addRole(role, salary, department) {
     let getDepartmentId = '';
     mysqlConnection.query('SELECT id FROM department WHERE department_name = ?', department, function (err, results) {
@@ -109,6 +112,9 @@ function addRolePrompt(){
     });
 }
 
+//////////////////////////////// ADD DEPARTMENT /////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
 function addDepartment(department) {
     console.log("This is the result:" + department)
     mysqlConnection.query('INSERT INTO department (department_name) VALUES (?);', department, function (err, results) {
@@ -123,6 +129,9 @@ function addDepartmentPrompt() {
         addDepartment(response.department);
     });
 }
+
+///////////////////////// VIEW EMPLOYEES BY DEPARTMENT //////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
 
 function viewEmployeesByDepartment (department) {
     mysqlConnection.query('SELECT a.id AS employee_id, a.first_name, a.last_name, c.role_title, d.department_name, c.salary, b.first_name AS manager_firstname, b.last_name AS manager_lastname FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE d.department_name = ?;', department, function (err, results) {
@@ -146,6 +155,9 @@ function getDepartmentToView (){
         departmentPromptToView();        
     })
 }
+
+////////////////////// VIEW EMPLOYEES BY MANAGER ////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
 
 function viewEmployeesByManager(firstName, lastName){
     mysqlConnection.query('SELECT b.first_name AS manager_firstname, b.last_name AS manager_lastname, a.id AS employee_id, a.first_name, a.last_name, c.role_title, d.department_name, c.salary FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name = ? AND b.last_name = ?;', [firstName, lastName], function (err, results) {
@@ -172,12 +184,18 @@ function getManager() {
     })
 };
 
+///////////////////////////// VIEW ALL EMPLOYEES ////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
 function viewAllEmployees(){
     mysqlConnection.query('SELECT a.id AS employee_id, a.first_name, a.last_name, c.role_title, d.department_name, c.salary, b.first_name AS manager_firstname, b.last_name AS manager_lastname FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id;', function (err, results) {
         console.table(results)
         start.start();
     })
 };
+
+///////////////////////////// VIEW ALL ROLES /////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
 
 function viewAllRoles(){
     mysqlConnection.query('SELECT roles.id AS role_id, roles.role_title, roles.salary, department.department_name FROM roles JOIN department ON roles.department_id = department.id;', function (err, results) {
@@ -186,12 +204,18 @@ function viewAllRoles(){
     })
 };
 
+/////////////////////////// VIEW ALL DEPARTMENTS ////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
 function viewAllDepartments(){
     mysqlConnection.query('SELECT * FROM department', function (err, results) {
         console.table(results)
         start.start();
     })
 };
+
+///////////////////////////// START FUNCTION ////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
 
 function dbEnquiry(optionResponse) {
     switch(optionResponse) {
