@@ -1,9 +1,7 @@
 // TODO: Include packages needed for this application
 const dbEnquiry = require('./db/index');
 const inquirer = require('inquirer');
-/* const mysqlConnection = require('./config/connection');
-const cTable = require('console.table');
-const logo = require('asciiart-logo'); */
+const logo = require('asciiart-logo');
 /* 
 // renaming column to total_count, looking at data from favourite_books table, COUNTING by in_stock group. 
 db.query('SELECT COUNT(id) AS total_count FROM favorite_books GROUP BY in_stock', function (err, results) {
