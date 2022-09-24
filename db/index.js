@@ -2,16 +2,49 @@ const inquirer = require('inquirer');
 const mysqlConnection = require('../config/connection');
 const cTable = require('console.table');
 const start = require('../index.js');
-let managers = [];
+let managersArr = [];
+let departmentsArr = [];
 
-const viewByManager = [
+const getManagerQ = [
     {
         type: 'list',
         name: 'manager',
         message: 'Please select a manager:',
-        choices: managers
+        choices: managersArr
     }
 ];
+
+const getDepartmentQ = [
+    {
+        type: 'list',
+        name: 'department',
+        message: 'Please select a department:',
+        choices: departmentsArr
+    }
+];
+
+function viewEmployeesByDepartment (department) {
+    mysqlConnection.query('SELECT a.id AS employee_id, a.first_name, a.last_name, c.role_title, d.department_name, c.salary, b.first_name AS manager_firstname, b.last_name AS manager_lastname FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE d.department_name = ?;', department, function (err, results) {
+        console.table(results);
+        start.start();
+    })
+};
+
+function departmentPrompt() {
+    inquirer.prompt(getDepartmentQ)
+    .then((response) => {
+        viewEmployeesByDepartment(response.department_name);
+    });
+}
+
+function getDepartment (){
+    mysqlConnection.query('SELECT department_name FROM department', function (err, results) {
+        for (const department in results) {
+            departmentsArr.push(results[department].department_name);
+        }
+        departmentPrompt();        
+    })
+}
 
 function viewEmployeesByManager(firstName, lastName){
     mysqlConnection.query('SELECT b.first_name AS manager_firstname, b.last_name AS manager_lastname, a.id AS employee_id, a.first_name, a.last_name, c.role_title, d.department_name, c.salary FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name = ? AND b.last_name = ?;', [firstName, lastName], function (err, results) {
@@ -21,7 +54,7 @@ function viewEmployeesByManager(firstName, lastName){
 };
 
 function managerPrompt() {
-    inquirer.prompt(viewByManager)
+    inquirer.prompt(getManagerQ)
     .then((response) => {
         let fullName = response.manager;
         const splitName = fullName.split(" ");
@@ -32,7 +65,7 @@ function managerPrompt() {
 function getManager() {
     mysqlConnection.query('SELECT concat(b.first_name, " ", b.last_name) AS manager_name FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name IS NOT NULL AND b.last_name IS NOT NULL;', function (err, results) {
         for (const person in results) {
-            managers.push(results[person].manager_name);
+            managersArr.push(results[person].manager_name);
         }
         managerPrompt();        
     })
@@ -74,7 +107,7 @@ function dbEnquiry(optionResponse) {
             getManager();
         break;
         case 'View Employees By Department':
-            console.log("also correct");
+            getDepartment();
         break;
         case 'Add Department':
             console.log("also correct");
