@@ -15,14 +15,14 @@ SELECT
 a.id AS employee_id,
 a.first_name,
 a.last_name, 
-/* roles.role_title,  */
+c.role_title,
 /* department.department_name, */
-/* roles.salary, */
+c.salary,
 b.first_name AS manager_firstname,
 b.last_name AS manager_lastname
 FROM employee a
-INNER JOIN employee b ON a.manager_id = b.id;
-/* JOIN roles ON a.role_id = roles.id; */
+INNER JOIN employee b ON a.manager_id = b.id
+INNER JOIN roles c ON a.role_id = c.id;
 /* JOIN department ON department.id = roles.department_id; */
 
 /* SELECT 

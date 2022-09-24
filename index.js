@@ -1,19 +1,10 @@
 // TODO: Include packages needed for this application
-const generateMarkdown = require('./utils/generateMarkdown.js')
-const express = require('express');
+const generateMarkdown = require('./db/index');
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const fs = require('fs');
 const mysqlConnection = require('./config/connection');
 const cTable = require('console.table');
 const logo = require('asciiart-logo');
-
-const PORT = process.env.PORT || 3001;
-const app = express();
-
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
 
 // renaming column to total_count, looking at data from favourite_books table, COUNTING by in_stock group. 
 db.query('SELECT COUNT(id) AS total_count FROM favorite_books GROUP BY in_stock', function (err, results) {
@@ -119,16 +110,9 @@ const updateEmployeeQ = [
     }
 ];
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {
-    fs.writeFile(fileName, data, (err) =>
-        err ? console.log(err) : console.log('Successfully created README.md!')
-    );
-}
-
 // TODO: Create a function to initialize app
 function init() {
-    inquirer.prompt(questions)
+    inquirer.prompt(startQuestion)
         .then((answers) => {
             const readMeContent = generateMarkdown(answers);
             writeToFile("README.md", readMeContent);
