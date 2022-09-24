@@ -45,6 +45,28 @@ const startQuestion = [
     }
 ];
 
+const viewByManager = [
+    {
+        type: 'list',
+        name: 'manager',
+        message: 'Please select a manager:',
+        choices: [
+            "View All Departments",
+            "View All Roles",
+            "View All Employees",
+            "View Employees By Manager",
+            "View Employees By Department",
+            "Add Department",
+            "Add Role",
+            "Add Employee",
+            "Update Employee Role",
+            "Update Employee Manager",
+            "Delete department, roles or employees",
+            "Quit"
+        ]
+    }
+];
+
 const addDepartmentQ = [
     {
         type: 'input',
@@ -126,13 +148,5 @@ function init() {
 // Function call to initialize app
 init();
 
-/* 
-"View All Roles",
-"View All Employees",
-"Add Department",
-"Add Role",
-"Add Employee",
-"Update Employee Role",
-"Quit" */
 
 exports.start = start;

@@ -26,6 +26,23 @@ LEFT JOIN employee b ON a.manager_id = b.id
 INNER JOIN roles c ON a.role_id = c.id
 INNER JOIN department d ON d.id = c.department_id;
 
+/* View employees by manager */
+
+SELECT 
+b.first_name AS manager_firstname,
+b.last_name AS manager_lastname,
+a.id AS employee_id,
+a.first_name,
+a.last_name, 
+c.role_title,
+d.department_name,
+c.salary
+FROM employee a
+LEFT JOIN employee b ON a.manager_id = b.id
+INNER JOIN roles c ON a.role_id = c.id
+INNER JOIN department d ON d.id = c.department_id
+WHERE b.first_name = "John" AND b.last_name = "Doe";
+
 /* Add department */
 
 INSERT INTO department (department_name)
