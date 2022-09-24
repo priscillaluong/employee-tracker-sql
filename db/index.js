@@ -2,35 +2,39 @@ const inquirer = require('inquirer');
 const mysqlConnection = require('../config/connection');
 const cTable = require('console.table');
 const start = require('../index.js');
+let managers = [];
 
-/* const viewByManager = [
+const viewByManager = [
     {
         type: 'list',
         name: 'manager',
         message: 'Please select a manager:',
-        choices: getManager()
-        }
-]; */
+        choices: managers
+    }
+];
 
-function viewEmployeesByManager(){
-    mysqlConnection.query('SELECT b.first_name AS manager_firstname, b.last_name AS manager_lastname, a.id AS employee_id, a.first_name, a.last_name, c.role_title, d.department_name, c.salary FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name = ? AND b.last_name = ?;', [], function (err, results) {
+function viewEmployeesByManager(firstName, lastName){
+    mysqlConnection.query('SELECT b.first_name AS manager_firstname, b.last_name AS manager_lastname, a.id AS employee_id, a.first_name, a.last_name, c.role_title, d.department_name, c.salary FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name = ? AND b.last_name = ?;', [firstName, lastName], function (err, results) {
         console.table(results);
         start.start();
     })
 };
 
+function managerPrompt() {
+    inquirer.prompt(viewByManager)
+    .then((response) => {
+        let fullName = response.manager;
+        const splitName = fullName.split(" ");
+        viewEmployeesByManager(splitName[0], splitName[1]);
+    });
+}
+
 function getManager() {
-    mysqlConnection.query('SELECT concat(b.first_name, " ", b.last_name) AS value, b.id AS id FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name IS NOT NULL AND b.last_name IS NOT NULL;', function (err, results) {
-        console.log(results);
-        console.log(results[0]);
-        let managers = []
-        for (const manager in results) {
-            console.log(results[manager].value)
-/*             managers.push(results[manager]); */
+    mysqlConnection.query('SELECT concat(b.first_name, " ", b.last_name) AS manager_name FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name IS NOT NULL AND b.last_name IS NOT NULL;', function (err, results) {
+        for (const person in results) {
+            managers.push(results[person].manager_name);
         }
-/*         console.log(managers); 
-        return managers; */
-        
+        managerPrompt();        
     })
 };
 
@@ -68,10 +72,6 @@ function dbEnquiry(optionResponse) {
         break;
         case 'View Employees By Manager':
             getManager();
-/*             inquirer.prompt(viewByManager)
-            .then((response) => {
-                console.log(response);
-            }); */
         break;
         case 'View Employees By Department':
             console.log("also correct");
