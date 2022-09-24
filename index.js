@@ -45,14 +45,6 @@ const startQuestion = [
     }
 ];
 
-const addDepartmentQ = [
-    {
-        type: 'input',
-        name: 'addDepartment',
-        message: 'Please enter name of department:'
-    }
-];
-
 const addRoleQ = [
     {
         type: 'input',
