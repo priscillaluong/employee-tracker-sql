@@ -13,6 +13,7 @@ const start = require('../index.js');
 let managersArr = [];
 let departmentsArr = [];
 let rolesArr = [];
+let employeesArr = [];
 
 const getManagerQ = [
     {
@@ -90,6 +91,21 @@ const addEmployeeQs = [
     }
 ];
 
+const updateEmployeeQ = [
+    {
+        type: 'list',
+        name: 'employee',
+        message: 'Select an employee to update:',
+        choices: employeesArr
+    },
+    {
+        type: 'list',
+        name: 'role',
+        message: "Please select employee's new role:",
+        choices: rolesArr
+    }
+];
+
 //////////////////////////////////// QUIT ///////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -106,7 +122,43 @@ function quit () {
 
 
 ////////////////////////// UPDATE EMPLOYEE ROLE /////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+function updateEmployee(name, role){
+    const employeeName = name.split(" ");
+    mysqlConnection.query('UPDATE employee SET role_id = (SELECT r.id FROM roles r WHERE r.role_title = ?) WHERE employee.first_name = ? AND employee.last_name = ?;', [role, employeeName[0], employeeName[1]], function (err, results) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.table(results);
+            console.log("Employee has been successfully updated to database.");
+            start.start(); 
+        }
+})};
+
+function updateEmployeeRolePrompt() {
+    inquirer.prompt(updateEmployeeQ)
+    .then((response) => {
+        updateEmployee(response.employee, response.role);
+    });
+}
+
+function selectEmployeeToUpdate(){
+    mysqlConnection.query('SELECT concat(first_name, " ", last_name) AS employee_name FROM employee;', function (err, results) {
+        for (const person in results) {
+            employeesArr.push(results[person].employee_name);
+        }
+        console.log(err);
+        console.log(results);
+        console.table(results);
+    })
+    mysqlConnection.query('SELECT role_title FROM roles', function (err, results) {
+        for (const role in results) {
+            rolesArr.push(results[role].role_title);
+        }
+        updateEmployeeRolePrompt();   
+    });
+};
 
 
 ////////////////////////////// ADD AN EMPLOYEE //////////////////////////////////////
@@ -146,9 +198,6 @@ function addEmployeePrompt(){
 
 function addRole(role, salary, department) {
     mysqlConnection.query("INSERT INTO roles (role_title, salary, department_id) VALUES (?, ?, (SELECT id FROM department WHERE department_name = ?));", [role, Number(salary), department], function (err, results) {
-        console.log(typeof(Number(salary)));
-        console.log(typeof(getDepartmentId));
-        console.log(department);
         console.log(results);
         console.log(err);
         console.log("This new role has been successfully added to the database!");
@@ -301,7 +350,7 @@ function dbEnquiry(optionResponse) {
             addEmployeePrompt();
         break;
         case 'Update Employee Role':
-            console.log("also correct");
+            selectEmployeeToUpdate();
         break;
         case 'Update Employee Manager':
             console.log("also correct");

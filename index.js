@@ -45,16 +45,7 @@ const startQuestion = [
     }
 ];
 
-const updateEmployeeQ = [
-    {
-        type: 'list',
-        name: 'updateEmployee',
-        message: 'Select an employee to update:',
-        choices: [
 
-        ]
-    }
-];
 
 function start() {
     inquirer.prompt(startQuestion)
