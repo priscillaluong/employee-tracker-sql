@@ -163,6 +163,28 @@ function quit () {
 //////////////////////// DELETE EMPLOYEES /////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
+function deleteEmployee(name) {
+    const employeeName = name.split(" ");
+    mysqlConnection.query('DELETE FROM employee WHERE first_name = ? AND last_name = ?;', [employeeName[0], employeeName[1]], function (err, results) {
+        console.log(err);
+        console.log(results);
+        console.table(results);
+        start.start();
+    })
+}
+
+function getEmployeesToDelete (){
+    mysqlConnection.query('SELECT concat(first_name, " ", last_name) AS employee_name FROM employee;', function (err, results) {
+        for (const person in results) {
+            employeesArr.push(results[person].employee_name);
+        }
+        inquirer.prompt(deleteEmployeeQs)
+        .then((response) => {
+            deleteEmployee(response.name);
+        });        
+    })
+}
+
 //////////////////////// DELETE ROLES  /////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
