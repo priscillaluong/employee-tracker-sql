@@ -106,6 +106,21 @@ const updateEmployeeQ = [
     }
 ];
 
+const updateEmployeeManager = [
+    {
+        type: 'list',
+        name: 'employee',
+        message: 'Select an employee to update:',
+        choices: employeesArr
+    },
+    {
+        type: 'list',
+        name: 'manager',
+        message: "Please select employee's new manager:",
+        choices: managersArr
+    }
+];
+
 //////////////////////////////////// QUIT ///////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -113,13 +128,50 @@ function quit () {
     //prompt.ui.close();
 }
 
-//////////////////////// DELETE DEP, ROLES OR EMPLOYEES /////////////////////////////
+//////////////////////// DELETE DEPARTMENT, ROLES OR EMPLOYEES /////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
 
 ////////////////////////// UPDATE EMPLOYEE MANAGER //////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
+function updateManager(name, manager){
+    const employeeName = name.split(" ");
+    const managerName = manager.split(" ");
+    mysqlConnection.query('UPDATE employee SET manager_id = (SELECT a.id FROM (SELECT b.id FROM employee b WHERE b.first_name = ? AND b.last_name = ?) a) WHERE first_name = ? AND last_name = ?;', [managerName[0], managerName[1], employeeName[0], employeeName[1]], function (err, results) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.table(results);
+            console.log("Employee's manager has been successfully updated to database.");
+            start.start(); 
+        }
+})};
+
+function updateManagerPrompt() {
+    inquirer.prompt(updateEmployeeManager)
+    .then((response) => {
+        updateManager(response.employee, response.manager);
+    });
+}
+
+function selectManager(){
+    mysqlConnection.query('SELECT concat(first_name, " ", last_name) AS employee_name FROM employee;', function (err, results) {
+        for (const person in results) {
+            employeesArr.push(results[person].employee_name);
+        }
+        console.log(err);
+        console.log(results);
+        console.table(results);
+    })
+    mysqlConnection.query('SELECT concat(b.first_name, " ", b.last_name) AS manager_name FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name IS NOT NULL AND b.last_name IS NOT NULL;', function (err, results) {
+        for (const person in results) {
+            managersArr.push(results[person].manager_name);
+        }
+        managersArr.push("None");
+        updateManagerPrompt();  
+    });
+};
 
 ////////////////////////// UPDATE EMPLOYEE ROLE /////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -353,7 +405,7 @@ function dbEnquiry(optionResponse) {
             selectEmployeeToUpdate();
         break;
         case 'Update Employee Manager':
-            console.log("also correct");
+            selectManager();
         break;
         case 'Delete department, roles or employees':
             console.log("also correct");
