@@ -20,7 +20,9 @@ const startQuestion = [
             "Add Employee",
             "Update Employee Role",
             "Update Employee Manager",
-            "Delete department, roles or employees",
+            "Delete Department", 
+            "Delete Role",
+            "Delete Employee",
             "Quit"
         ]
     }

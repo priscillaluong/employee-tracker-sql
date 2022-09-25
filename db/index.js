@@ -121,6 +121,35 @@ const updateEmployeeManager = [
     }
 ];
 
+const deleteDepartment = [
+    {
+        type: 'list',
+        name: 'department',
+        message: 'Select a department to delete:',
+        choices: departmentsArr
+    }
+];
+
+
+const deleteRole = [
+    {
+        type: 'list',
+        name: 'department',
+        message: 'Select a role to delete:',
+        choices: rolesArr
+    }
+];
+
+
+const deleteEmployee = [
+    {
+        type: 'list',
+        name: 'department',
+        message: 'Select an employee to delete:',
+        choices: employeesArr
+    }
+];
+
 //////////////////////////////////// QUIT ///////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -130,6 +159,8 @@ function quit () {
 
 //////////////////////// DELETE DEPARTMENT, ROLES OR EMPLOYEES /////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
+
+
 
 
 ////////////////////////// UPDATE EMPLOYEE MANAGER //////////////////////////////////
