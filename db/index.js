@@ -3,7 +3,6 @@
 // TODO: Finish remaining prompts
 // TODO: QUIT function 
 // TODO: Finish remaining prompts
-// TODO: Nesting db calls 
 // TODO: Finish remaining prompts
 // TODO: Await / Await - promise.then()
 
@@ -113,32 +112,12 @@ function quit () {
 ////////////////////////////// ADD AN EMPLOYEE //////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 function addEmployee(fName, lName, role, manager) {
-    let roleId = '';
-    let managerId = '';
+
     const managerName = manager.split(" ");
 
-/*     switch (manager) {
-        case 'None':
-        break;
-        default:
-            mysqlConnection.query('SELECT id FROM employee WHERE first_name = ? AND last_name = ?', (managerName[0], managerName[1]), function (err, results) {
-                managerId = results[0].id;
-                console.log(err);
-                console.log(results);
-            })
-    } */
-
-/*     mysqlConnection.query('SELECT id FROM roles WHERE role_title = ?', role, function (err, results) {
-        roleId = results[0].id; 
-        console.log(err);  
-        console.log(results);
-    }) */
-    mysqlConnection.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, (SELECT id FROM roles WHERE role_title = ?), (SELECT id FROM employee WHERE first_name = ? AND last_name = ?));', (fName, lName, role, (managerName[0], managerName[1])), function (err, results) {
+    mysqlConnection.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, (SELECT r.id FROM roles r WHERE r.role_title = ?), (SELECT e.id FROM employee e WHERE e.first_name = ? AND e.last_name = ?));', [fName, lName, role, managerName[0], managerName[1]], function (err, results) {
         console.log(err);
         console.log(results);
-        console.log(role);
-        console.log(managerName[0]);
-        console.log(managerName[1]);
         console.log("This employee has been successfully added to the database!");
         start.start();  
     })

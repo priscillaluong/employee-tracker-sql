@@ -91,3 +91,6 @@ UPDATE employee SET role_id = 1
 WHERE employee.first_name = "Mike" AND employee.last_name = "Chan";
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("Jennifer", "Sam", (SELECT id FROM (SELECT r.id FROM roles r WHERE r.role_title = "Sales Associate") sub), (SELECT id FROM (SELECT e.id FROM employee e WHERE e.first_name = "John" AND e.last_name = "Doe") sub));
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("Anna", "Lu", (SELECT r.id FROM roles r WHERE r.role_title = "Sales Lead"), (SELECT e.id FROM employee e WHERE e.first_name = "Ashley" AND e.last_name = "Rodriguez"));
+
