@@ -95,3 +95,7 @@ INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("Jenni
 INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("Anna", "Lu", (SELECT r.id FROM roles r WHERE r.role_title = "Sales Lead"), (SELECT e.id FROM employee e WHERE e.first_name = "Ashley" AND e.last_name = "Rodriguez"));
 
 UPDATE employee SET manager_id = (SELECT a.id FROM (SELECT b.id FROM employee b WHERE b.first_name = "Jennifer" AND b.last_name = "Sam") a) WHERE first_name = "Tom" AND last_name = "Allen";
+
+/* DELETING SPECIFIC VALUES */
+
+DELETE FROM department WHERE department_name = "Legal";

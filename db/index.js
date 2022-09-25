@@ -15,6 +15,9 @@ let departmentsArr = [];
 let rolesArr = [];
 let employeesArr = [];
 
+///////////////////////////// Question Arrays //////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+
 const getManagerQ = [
     {
         type: 'list',
@@ -106,7 +109,7 @@ const updateEmployeeQ = [
     }
 ];
 
-const updateEmployeeManager = [
+const updateEmployeeManagerQs = [
     {
         type: 'list',
         name: 'employee',
@@ -121,7 +124,7 @@ const updateEmployeeManager = [
     }
 ];
 
-const deleteDepartment = [
+const deleteDepartmentQs = [
     {
         type: 'list',
         name: 'department',
@@ -131,20 +134,20 @@ const deleteDepartment = [
 ];
 
 
-const deleteRole = [
+const deleteRoleQs = [
     {
         type: 'list',
-        name: 'department',
+        name: 'role',
         message: 'Select a role to delete:',
         choices: rolesArr
     }
 ];
 
 
-const deleteEmployee = [
+const deleteEmployeeQs = [
     {
         type: 'list',
-        name: 'department',
+        name: 'name',
         message: 'Select an employee to delete:',
         choices: employeesArr
     }
@@ -157,11 +160,56 @@ function quit () {
     //prompt.ui.close();
 }
 
-//////////////////////// DELETE DEPARTMENT, ROLES OR EMPLOYEES /////////////////////////////
+//////////////////////// DELETE EMPLOYEES /////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
+//////////////////////// DELETE ROLES  /////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
 
+function deleteRoles(role) {
+    mysqlConnection.query('DELETE FROM roles WHERE role_title = ?;', role, function (err, results) {
+        console.log(err);
+        console.log(results);
+        console.table(results);
+        start.start();
+    })
+}
 
+function getRolesToDelete (){
+    mysqlConnection.query('SELECT role_title FROM roles', function (err, results) {
+        for (const role in results) {
+            rolesArr.push(results[role].role_title);
+        }
+        inquirer.prompt(deleteRoleQs)
+        .then((response) => {
+            deleteRoles(response.role);
+        });        
+    })
+}
+
+//////////////////////// DELETE DEPARTMENT /////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+function deleteDepartment(department) {
+    mysqlConnection.query('DELETE FROM department WHERE department_name = ?;', department, function (err, results) {
+        console.log(err);
+        console.log(results);
+        console.table(results);
+        start.start();
+    })
+}
+
+function getDepartmentsToDelete (){
+    mysqlConnection.query('SELECT department_name FROM department', function (err, results) {
+        for (const department in results) {
+            departmentsArr.push(results[department].department_name);
+        }
+        inquirer.prompt(deleteDepartmentQs)
+        .then((response) => {
+            deleteDepartment(response.department);
+        });        
+    })
+}
 
 ////////////////////////// UPDATE EMPLOYEE MANAGER //////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -180,7 +228,7 @@ function updateManager(name, manager){
 })};
 
 function updateManagerPrompt() {
-    inquirer.prompt(updateEmployeeManager)
+    inquirer.prompt(updateEmployeeManagerQs)
     .then((response) => {
         updateManager(response.employee, response.manager);
     });
@@ -438,8 +486,14 @@ function dbEnquiry(optionResponse) {
         case 'Update Employee Manager':
             selectManager();
         break;
-        case 'Delete department, roles or employees':
-            console.log("also correct");
+        case 'Delete Department':
+            getDepartmentsToDelete();
+        break;
+        case 'Delete Role':
+            getRolesToDelete();
+        break;
+        case 'Delete Employee':
+            getEmployeesToDelete();
         break;
         case 'Quit':
             quit();
