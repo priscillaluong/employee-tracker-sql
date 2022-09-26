@@ -317,16 +317,22 @@ function updateEmployeeRolePrompt() {
 
 function selectEmployeeToUpdate(){
     mysqlConnection.query('SELECT concat(first_name, " ", last_name) AS employee_name FROM employee;', function (err, results) {
+        employeesArr.length = 0;
         for (const person in results) {
-            employeesArr.push(results[person].employee_name);
+            if (employeesArr.indexOf(results[person].employee_name) === -1) {
+                employeesArr.push(results[person].employee_name);
+            }
         }
         console.log(err);
         console.log(results);
         console.table(results);
     })
     mysqlConnection.query('SELECT role_title FROM roles', function (err, results) {
+        rolesArr = 0;
         for (const role in results) {
-            rolesArr.push(results[role].role_title);
+            if (rolesArr.indexOf(results[role].role_title) === -1) {
+                rolesArr.push(results[role].role_title);
+            }  
         }
         updateEmployeeRolePrompt();   
     });
