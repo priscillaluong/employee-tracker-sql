@@ -1,15 +1,13 @@
 // TODO: Repeated data is pushed into arrays (from different prompts and same prompts)
-// TODO: ADD NEW ROLE - getDepartmentId is coming up with an error
-// TODO: Finish remaining prompts
 // TODO: QUIT function 
-// TODO: Finish remaining prompts
-// TODO: Finish remaining prompts
 // TODO: Await / Await - promise.then()
 
 const inquirer = require('inquirer');
 const mysqlConnection = require('../config/connection');
 const cTable = require('console.table');
 const start = require('../index.js');
+const logo = require('asciiart-logo');
+
 let managersArr = [];
 let departmentsArr = [];
 let rolesArr = [];
@@ -157,6 +155,10 @@ const deleteEmployeeQs = [
 /////////////////////////////////////////////////////////////////////////////////////
 
 function quit () {
+    console.log(logo({
+        name: "Bye!",
+    }).render());
+    return;
     //prompt.ui.close();
 }
 
@@ -172,6 +174,8 @@ function deleteEmployee(name) {
         start.start();
     })
 }
+
+// TODO: fix employeesArr push func 
 
 function getEmployeesToDelete (){
     mysqlConnection.query('SELECT concat(first_name, " ", last_name) AS employee_name FROM employee;', function (err, results) {
@@ -221,6 +225,8 @@ function deleteDepartment(department) {
     })
 }
 
+// TODO: fix deparmentsArr push func 
+
 function getDepartmentsToDelete (){
     mysqlConnection.query('SELECT department_name FROM department', function (err, results) {
         for (const department in results) {
@@ -256,8 +262,11 @@ function updateManagerPrompt() {
     });
 }
 
+// TODO: fix employeesArr push func 
+
 function selectManager(){
     mysqlConnection.query('SELECT concat(first_name, " ", last_name) AS employee_name FROM employee;', function (err, results) {
+        employeesArr = [];
         for (const person in results) {
             employeesArr.push(results[person].employee_name);
         }
@@ -296,6 +305,8 @@ function updateEmployeeRolePrompt() {
     });
 }
 
+// TODO: fix employees push func 
+
 function selectEmployeeToUpdate(){
     mysqlConnection.query('SELECT concat(first_name, " ", last_name) AS employee_name FROM employee;', function (err, results) {
         for (const person in results) {
@@ -328,6 +339,8 @@ function addEmployee(fName, lName, role, manager) {
     })
 }
 
+// TODO: fix managersArr push func 
+
 function addEmployeePrompt(){
     mysqlConnection.query('SELECT concat(b.first_name, " ", b.last_name) AS manager_name FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name IS NOT NULL AND b.last_name IS NOT NULL;', function (err, results) {
         for (const person in results) {
@@ -358,6 +371,7 @@ function addRole(role, salary, department) {
     })
 }
 
+// TODO: fix departmentsArr push func 
 
 function addRolePrompt(){
     mysqlConnection.query('SELECT department_name FROM department', function (err, results) {
@@ -406,6 +420,8 @@ function departmentPromptToView() {
     });
 }
 
+// TODO: fix departmentsArr push func 
+
 function getDepartmentToView (){
     mysqlConnection.query('SELECT department_name FROM department', function (err, results) {
         for (const department in results) {
@@ -433,6 +449,8 @@ function managerPrompt() {
         viewEmployeesByManager(splitName[0], splitName[1]);
     });
 }
+
+// TODO: fix managersArr push func 
 
 function getManager() {
     mysqlConnection.query('SELECT concat(b.first_name, " ", b.last_name) AS manager_name FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name IS NOT NULL AND b.last_name IS NOT NULL;', function (err, results) {
