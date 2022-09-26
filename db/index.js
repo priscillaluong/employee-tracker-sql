@@ -266,7 +266,12 @@ function updateManagerPrompt() {
 
 function selectManager(){
     mysqlConnection.query('SELECT concat(first_name, " ", last_name) AS employee_name FROM employee;', function (err, results) {
-        employeesArr = [];
+        //employeesArr = [];
+        console.log(employeesArr.length);
+        console.log(employeesArr);
+        employeesArr.length = 0;
+        console.log(employeesArr.length);
+        console.log(employeesArr);
         for (const person in results) {
             employeesArr.push(results[person].employee_name);
         }
@@ -275,8 +280,11 @@ function selectManager(){
         console.table(results);
     })
     mysqlConnection.query('SELECT concat(b.first_name, " ", b.last_name) AS manager_name FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name IS NOT NULL AND b.last_name IS NOT NULL;', function (err, results) {
+        managersArr.length = 0;
         for (const person in results) {
-            managersArr.push(results[person].manager_name);
+            if (managersArr.indexOf(results[person].manager_name) === -1) {
+                managersArr.push(results[person].manager_name);
+            }
         }
         managersArr.push("None");
         updateManagerPrompt();  
