@@ -155,11 +155,10 @@ const deleteEmployeeQs = [
 /////////////////////////////////////////////////////////////////////////////////////
 
 function quit () {
-    console.log(logo({
+    console.table(logo({
         name: "Bye!",
     }).render());
-    return;
-    //prompt.ui.close();
+    process.exit();
 }
 
 //////////////////////// DELETE EMPLOYEES /////////////////////////////
@@ -179,8 +178,11 @@ function deleteEmployee(name) {
 
 function getEmployeesToDelete (){
     mysqlConnection.query('SELECT concat(first_name, " ", last_name) AS employee_name FROM employee;', function (err, results) {
+        employeesArr.length = 0;
         for (const person in results) {
-            employeesArr.push(results[person].employee_name);
+            if (employeesArr.indexOf(results[person].employee_name) === -1) {
+                employeesArr.push(results[person].employee_name);
+            }
         }
         inquirer.prompt(deleteEmployeeQs)
         .then((response) => {
@@ -229,8 +231,11 @@ function deleteDepartment(department) {
 
 function getDepartmentsToDelete (){
     mysqlConnection.query('SELECT department_name FROM department', function (err, results) {
+        departmentsArr.length = 0;
         for (const department in results) {
-            departmentsArr.push(results[department].department_name);
+            if (departmentsArr.indexOf(results[department].department_name) === -1) {
+                departmentsArr.push(results[department].department_name);
+            }
         }
         inquirer.prompt(deleteDepartmentQs)
         .then((response) => {
@@ -267,13 +272,11 @@ function updateManagerPrompt() {
 function selectManager(){
     mysqlConnection.query('SELECT concat(first_name, " ", last_name) AS employee_name FROM employee;', function (err, results) {
         //employeesArr = [];
-        console.log(employeesArr.length);
-        console.log(employeesArr);
         employeesArr.length = 0;
-        console.log(employeesArr.length);
-        console.log(employeesArr);
         for (const person in results) {
-            employeesArr.push(results[person].employee_name);
+            if (employeesArr.indexOf(results[person].employee_name) === -1) {
+                employeesArr.push(results[person].employee_name);
+            }
         }
         console.log(err);
         console.log(results);

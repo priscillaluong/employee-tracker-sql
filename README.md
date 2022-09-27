@@ -1,14 +1,18 @@
 # employee-tracker-sql
 
-# 12 SQL: Employee Tracker
+## Application Description
 
-## Your Task
+A command-line application built to manage a company's employee database, using Node.js, Inquirer, and MySQL. It is a **Content management system (CMS)** which allows users to easily view and interact with information stored in databases.
 
-Developers frequently have to create interfaces that allow non-developers to easily view and interact with information stored in databases. These interfaces are called **content management systems (CMS)**. Your assignment this week is to build a command-line application from scratch to manage a company's employee database, using Node.js, Inquirer, and MySQL.
+The application will be invoked by using the following command:
 
-Because this application won’t be deployed, you’ll also need to create a walkthrough video that demonstrates its functionality and all of the following acceptance criteria being met. You’ll need to submit a link to the video and add it to the README of your project.
+```bash
+node index.js
+```
 
-## User Story
+I was given the below User Story and Acceptance Criteria:
+
+User Story:
 
 ```md
 AS A business owner
@@ -16,7 +20,7 @@ I WANT to be able to view and manage the departments, roles, and employees in my
 SO THAT I can organize and plan my business
 ```
 
-## Acceptance Criteria
+Acceptance Criteria:
 
 ```md
 GIVEN a command-line application that accepts user input
@@ -38,19 +42,52 @@ WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
 ```
 
+## Required modules / packages:
+
+* Inquirer package
+* Node.js
+* mysql2 package
+* dotenv module
+* console.table package
+* asciiart-logo module
+
+# Application Interaction: 
+
+* When application is invoked and user has successfully connected to the database, they are prompted with a list of options:
+
+![Application Start Prompts Screenshot](/assets/images/start.png)
+
+* The 'Get Started' button then directs users to the notes.html:
+
+![notes.html Screenshot](/Assets/images/notes.png)
+
+* New notes can be added by clicking on the '+' icon on the top right of the page, and saved by clicking on the 'save' icon:
+
+![First Note Saved Screenshot](/Assets/images/first-saved-note.png)
+
+* Multiple notes can be saved and added. Previously saved notes can be retrieved in the left hand column:
+
+![Saved Notes Screenshot](/Assets/images/second-note.png)
+
+![Saved Notes 2 Screenshot](/Assets/images/more-notes.png)
+
+* Saved notes can also be deleted by clicking on the 'trash can' icon next to the note you wish to delete. 
+
+![Notes Delete Screenshot](/Assets/images/delete.png)
+
+# Link to Deployed Application:
+
+[Click here](https://shrouded-anchorage-59962.herokuapp.com/)
+
+### Final note:
+
+*Any feedback to improve code or implement best practice would be appreciated* 😊
+
 ## Mock-Up
 
 The following video shows an example of the application being used from the command line:
 
 [![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](./Assets/12-sql-homework-video-thumbnail.png)](https://2u-20.wistia.com/medias/2lnle7xnpk)
-
-## Getting Started
-
-This Challenge will require a video submission. Refer to the [Fullstack Blog Video Submission Guide](https://coding-boot-camp.github.io/full-stack/computer-literacy/video-submission-guide) for additional guidance on creating a video.
-
-You’ll need to use the [MySQL2 package](https://www.npmjs.com/package/mysql2) to connect to your MySQL database and perform queries, the [Inquirer package](https://www.npmjs.com/package/inquirer/v/8.2.4) to interact with the user via the command line, and the [console.table package](https://www.npmjs.com/package/console.table) to print MySQL rows to the console.
-
-**Important**: You will be committing a file that contains your database credentials. Make sure that your MySQL password is not used for any other personal accounts, because it will be visible on GitHub. In upcoming lessons, you will learn how to better secure this password, or you can start researching npm packages now that could help you.
 
 You might also want to make your queries asynchronous. MySQL2 exposes a `.promise()` function on Connections to upgrade an existing non-Promise connection to use Promises. To learn more and make your queries asynchronous, refer to the [npm documentation on MySQL2](https://www.npmjs.com/package/mysql2).
 
