@@ -69,32 +69,49 @@ Functionality includes:
 
 ![Application Start Options Screenshot](/assets/images/more-options.png)
 
+* If selected 'View All Departments', a table is printed to the console with ID of each Department and the Department Name:
+
 ![View All Department Screenshot](/assets/images/view-departments.png)
+
+* If selected 'View All Employees', or 'View Employees By Manager', a table is printed to the console with specific data from the roles, department and employees tables:
 
 ![View All Employees Screenshot](/assets/images/view-employees.png)
 
 ![View By Manager Screenshot](/assets/images/view-by-manager.png)
 
+* If selected 'View All Roles', the below is printed to the console:
+
 ![View Roles Screenshot](/assets/images/view-roles.png)
+
+* If selected 'Add Role', the user is prompted with a question to specify name of role, salary of role and the department that the role belongs to:
 
 ![Add Role Prompt Screenshot](/assets/images/add-role-prompts.png)
 
+* Once the role has been added, we can see the updated record in the appropriate table, in this case, the *Software Tester* Role has been added and can be viewed in the *Roles* table:
+
 ![Role Added Screenshot](/assets/images/role-added.png)
+
+* There is also an option to 'Update an Employee Manager', user is prompted to select an employee to update, and select the new Manager, or 'none', for the employee:
 
 ![Update Manager Prompt Screenshot](/assets/images/update-manager.png)
 
 ![Update Manager 2nd Prompt Screenshot](/assets/images/update-mgr2.png)
 
+Updated Manager Results: 
+
 ![Update Manager Results Screenshot](/assets/images/update-mgr3.png)
+
+* If selected 'Delete Role', the user is prompted to select a role to delete, similarly with 'Delete Department' and 'Delete Employee', we can see this interaction below:
 
 ![Delete Role Prompt Screenshot](/assets/images/delete.png)
 
 ![Delete Role Prompt Screenshot](/assets/images/delete2.png)
 
+* Deleted 'Sales Associate' role evident in the 'View All Roles' table:
+
 ![Delete Role Results Screenshot](/assets/images/delete3.png)
 
-* The 'Get Started' button then directs users to the notes.html:
-
+* Once user has finished all queries, there is an option to select 'Quit', which prints out 'Bye' using the asciiart-logo package: 
 
 ![Exit Screenshot](/assets/images/quit.png)
 

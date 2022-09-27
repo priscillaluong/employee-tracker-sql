@@ -1,6 +1,5 @@
-// TODO: Repeated data is pushed into arrays (from different prompts and same prompts)
-// TODO: QUIT function 
-// TODO: Await / Await - promise.then()
+// TODO: DRY - look at refactoring push functions
+// TODO: Await / Await - promise.then() - making queries asynchronous
 
 const inquirer = require('inquirer');
 const mysqlConnection = require('../config/connection');
