@@ -69,11 +69,34 @@ Functionality includes:
 
 ![Application Start Options Screenshot](/assets/images/more-options.png)
 
+![View All Department Screenshot](/assets/images/view-departments.png)
 
+![View All Employees Screenshot](/assets/images/view-employees.png)
+
+![View By Manager Screenshot](/assets/images/view-by-manager.png)
+
+![View Roles Screenshot](/assets/images/view-roles.png)
+
+![Add Role Prompt Screenshot](/assets/images/add-role-prompts.png)
+
+![Role Added Screenshot](/assets/images/role-added.png)
+
+![Update Manager Prompt Screenshot](/assets/images/update-manager.png)
+
+![Update Manager 2nd Prompt Screenshot](/assets/images/update-mgr2.png)
+
+![Update Manager Results Screenshot](/assets/images/update-mgr3.png)
+
+![Delete Role Prompt Screenshot](/assets/images/delete.png)
+
+![Delete Role Prompt Screenshot](/assets/images/delete2.png)
+
+![Delete Role Results Screenshot](/assets/images/delete3.png)
 
 * The 'Get Started' button then directs users to the notes.html:
 
-![notes.html Screenshot](/Assets/images/notes.png)
+
+![Exit Screenshot](/assets/images/quit.png)
 
 * New notes can be added by clicking on the '+' icon on the top right of the page, and saved by clicking on the 'save' icon:
 
