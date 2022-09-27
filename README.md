@@ -117,14 +117,8 @@ Updated Manager Results:
 
 # Walk-through Video of Application Interaction:
 
-[Click here](https://shrouded-anchorage-59962.herokuapp.com/)
+[Click here](https://www.youtube.com/watch?v=fYxc2Zh1FaU&ab_channel=PriscillaLuong)
 
 ### Final note:
 
 *Any feedback to improve code or implement best practice would be appreciated* 😊
-
-## to-do
-
-You might also want to make your queries asynchronous. MySQL2 exposes a `.promise()` function on Connections to upgrade an existing non-Promise connection to use Promises. To learn more and make your queries asynchronous, refer to the [npm documentation on MySQL2](https://www.npmjs.com/package/mysql2).
-
-* Application allows users to view the total utilized budget of a department&mdash;in other words, the combined salaries of all employees in that department (8 points).

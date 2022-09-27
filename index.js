@@ -1,10 +1,10 @@
-// TODO: Include packages needed for this application
+// Packages needed for this application
 const dbEnquiry = require('./db/index');
 const inquirer = require('inquirer');
 const logo = require('asciiart-logo');
 const title = "Employee Tracker";
 
-// TODO: Create an array of questions for user input
+// An array of questions for user input
 const startQuestion = [
     {
         type: 'list',
@@ -36,7 +36,7 @@ function start() {
     });
 }
 
-// TODO: Create a function to initialize app
+// A function to initialize app
 function init() {
     console.log(logo({
         name: "Employee Tracker",
